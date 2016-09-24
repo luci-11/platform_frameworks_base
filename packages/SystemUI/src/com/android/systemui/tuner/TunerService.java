@@ -169,7 +169,7 @@ public class TunerService extends SystemUI {
         }
         if (!mListeningUris.containsKey(uri)) {
             mListeningUris.put(uri, key);
-            mContentResolver.registerContentObserver(uri, false, mObserver, mCurrentUser);
+            mContentResolver.registerContentObserver(uri, true, mObserver, mCurrentUser);
         }
         // Send the first state.
         tunable.onTuningChanged(key, getValue(key));
@@ -187,7 +187,7 @@ public class TunerService extends SystemUI {
         }
         mContentResolver.unregisterContentObserver(mObserver);
         for (Uri uri : mListeningUris.keySet()) {
-            mContentResolver.registerContentObserver(uri, false, mObserver, mCurrentUser);
+            mContentResolver.registerContentObserver(uri, true, mObserver, mCurrentUser);
         }
     }
 
