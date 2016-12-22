@@ -213,7 +213,6 @@ public class TunerService extends SystemUI {
     }
 
     public void clearAll() {
-
         for (String key : mTunableLookup.keySet()) {
             setValue(key, null);
         }
