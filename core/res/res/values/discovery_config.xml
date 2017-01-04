@@ -38,4 +38,13 @@
         <item>50</item>
     </integer-array>
 
+<<<<<<< HEAD:core/res/res/values/discovery_config.xml
+=======
+    <!-- Battery fast charge (in microwatt) -->
+    <integer name="config_chargingFastThreshold">7500000</integer>
+
+    <!-- kill app long press back -->
+    <integer name="config_backKillTimeout">3000</integer>
+
+>>>>>>> 47c7244... OMS7-N / Substratum support: updated to 2017-01-13:core/res/res/values/yaosp_config.xml
 </resources>
