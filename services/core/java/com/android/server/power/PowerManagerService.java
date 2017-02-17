@@ -205,6 +205,7 @@ public final class PowerManagerService extends SystemService
     private int mButtonBrightness;
     private boolean mButtonBrightnessEnabled = true;
     private int mButtonBrightnessSettingDefault;
+    private boolean mNavbarEnabled = false;
 
     private final Object mLock = new Object();
 
@@ -691,8 +692,8 @@ public final class PowerManagerService extends SystemService
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.NAVIGATION_BAR_ENABLED),
                     false, mSettingsObserver, UserHandle.USER_ALL);
-            resolver.registerContentObserver(Settings.Secure.getUriFor(
-                    Secure.BRIGHTNESS_USE_TWILIGHT),
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.NAVIGATION_BAR_ENABLED),
                     false, mSettingsObserver, UserHandle.USER_ALL);
             IVrManager vrManager =
                     (IVrManager) getBinderService(VrManagerService.VR_MANAGER_BINDER_SERVICE);
@@ -825,20 +826,12 @@ public final class PowerManagerService extends SystemService
         final int buttonBrightnessSetting = Settings.System.getIntForUser(resolver,
                 Settings.System.BUTTON_BRIGHTNESS, mButtonBrightnessSettingDefault,
                 UserHandle.USER_CURRENT);
-        if (buttonBrightnessSetting != mButtonBrightnessSetting) {
-            mButtonBrightnessSetting = buttonBrightnessSetting;
-        }
-
-        final boolean buttonBrightnessEnabled = Settings.System.getIntForUser(resolver,
-                Settings.System.BUTTON_BRIGHTNESS_ENABLED, 1, UserHandle.USER_CURRENT) != 0;
-        if (buttonBrightnessEnabled != mButtonBrightnessEnabled) {
-            mButtonBrightnessEnabled = buttonBrightnessEnabled;
-        }
-
-        final boolean navBarEnabled = Settings.System.getIntForUser(resolver,
-                Settings.System.NAVIGATION_BAR_ENABLED, 0, UserHandle.USER_CURRENT) != 0;
-        mButtonBrightnessEnabled &= !navBarEnabled;
-
+        mButtonBrightnessEnabled = Settings.System.getIntForUser(resolver,
+                Settings.System.BUTTON_BRIGHTNESS_ENABLED, 0,
+                UserHandle.USER_CURRENT) == 1;
+        mNavbarEnabled = Settings.System.getIntForUser(resolver,
+                Settings.System.NAVIGATION_BAR_ENABLED, 0,
+                UserHandle.USER_CURRENT) != 0;
         mDirty |= DIRTY_SETTINGS;
     }
 
@@ -1771,6 +1764,27 @@ public final class PowerManagerService extends SystemService
                             + screenOffTimeout - screenDimDuration;
                     if (now < nextTimeout) {
                         mUserActivitySummary = USER_ACTIVITY_SCREEN_BRIGHT;
+                        if (mWakefulness == WAKEFULNESS_AWAKE) {
+                            int buttonBrightness;
+                            if (mNavbarEnabled || !mButtonBrightnessEnabled) {
+                                buttonBrightness = 0;
+                            } else {
+                            if (mButtonBrightnessOverrideFromWindowManager >= 0) {
+                                buttonBrightness = mButtonBrightnessOverrideFromWindowManager;
+                            } else {
+                                buttonBrightness = mButtonBrightness;
+                            }
+                        }
+                            if (mButtonTimeout != 0
+                                    && now > mLastUserActivityTime + mButtonTimeout) {
+                                mButtonsLight.setBrightness(0);
+                            } else {
+                                mButtonsLight.setBrightness(buttonBrightness);
+                                if (buttonBrightness != 0 && mButtonTimeout != 0) {
+                                    nextTimeout = now + mButtonTimeout;
+                                }
+                              }
+                          }
                     } else {
                         nextTimeout = mLastUserActivityTime + screenOffTimeout;
                         if (now < nextTimeout) {
