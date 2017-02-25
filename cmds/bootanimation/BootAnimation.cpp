@@ -342,6 +342,9 @@ status_t BootAnimation::readyToRun() {
     if (encryptedAnimation && (access(getAnimationFileName(IMG_ENC), R_OK) == 0)) {
         mZipFileName = getAnimationFileName(IMG_ENC);
     }
+    else if (access(getAnimationFileName(IMG_OEM), R_OK) == 0) {
+        mZipFileName = getAnimationFileName(IMG_OEM);
+    }
     else if (access(THEME_BOOTANIMATION_FILE, R_OK) == 0) {
         mZipFileName = THEME_BOOTANIMATION_FILE;
     }
