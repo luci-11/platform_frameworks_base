@@ -34,9 +34,10 @@
             2 - Recent apps view in SystemUI
             3 - Launch assist intent
             4 - Voice Search
-            5 - In-app Search
-            6 - Launch Camera
-            7 - Launch Last app
+            5 - Launch Camera
+            6 - Launch Last app
+            7 - Single Hand Mode Right
+            8 - Single Hand Mode Left
          This needs to match the constants in
          policy/src/com/android/internal/policy/impl/PhoneWindowManager.java
     -->
@@ -48,9 +49,10 @@
             2 - Recent apps view in SystemUI
             3 - Launch assist intent
             4 - Voice Search
-            5 - In-app Search
-            6 - Launch Camera
-            7 - Launch Last app
+            5 - Launch Camera
+            6 - Launch Last app
+            7 - Single Hand Mode Right
+            8 - Single Hand Mode Left
          This needs to match the constants in
          policy/src/com/android/internal/policy/impl/PhoneWindowManager.java
     -->
@@ -62,9 +64,10 @@
             2 - Recent apps view in SystemUI
             3 - Launch assist intent
             4 - Voice Search
-            5 - In-app Search
-            6 - Launch Camera
-            7 - Launch Last app
+            5 - Launch Camera
+            6 - Launch Last app
+            7 - Single Hand Mode Right
+            8 - Single Hand Mode Left
          This needs to match the constants in
          policy/src/com/android/internal/policy/impl/PhoneWindowManager.java
     -->
@@ -76,9 +79,10 @@
             2 - Recent apps view in SystemUI
             3 - Launch assist intent
             4 - Voice Search
-            5 - In-app Search
-            6 - Launch Camera
-            7 - Launch Last app
+            5 - Launch Camera
+            6 - Launch Last app
+            7 - Single Hand Mode Right
+            8 - Single Hand Mode Left
          This needs to match the constants in
          policy/src/com/android/internal/policy/impl/PhoneWindowManager.java
     -->
@@ -90,9 +94,10 @@
             2 - Recent apps view in SystemUI
             3 - Launch assist intent
             4 - Voice Search
-            5 - In-app Search
-            6 - Launch Camera
-            7 - Launch Last app
+            5 - Launch Camera
+            6 - Launch Last app
+            7 - Single Hand Mode Right
+            8 - Single Hand Mode Left
          This needs to match the constants in
          policy/src/com/android/internal/policy/impl/PhoneWindowManager.java
     -->
@@ -104,9 +109,10 @@
             2 - Recent apps view in SystemUI
             3 - Launch assist intent
             4 - Voice Search
-            5 - In-app Search
-            6 - Launch Camera
-            7 - Launch Last app
+            5 - Launch Camera
+            6 - Launch Last app
+            7 - Single Hand Mode Right
+            8 - Single Hand Mode Left
          This needs to match the constants in
          policy/src/com/android/internal/policy/impl/PhoneWindowManager.java
     -->
@@ -118,9 +124,10 @@
             2 - Recent apps view in SystemUI
             3 - Launch assist intent
             4 - Voice Search
-            5 - In-app Search
-            6 - Launch Camera
-            7 - Launch Last app
+            5 - Launch Camera
+            6 - Launch Last app
+            7 - Single Hand Mode Right
+            8 - Single Hand Mode Left
          This needs to match the constants in
          policy/src/com/android/internal/policy/impl/PhoneWindowManager.java
     -->
@@ -132,9 +139,10 @@
             2 - Recent apps view in SystemUI
             3 - Launch assist intent
             4 - Voice Search
-            5 - In-app Search
-            6 - Launch Camera
-            7 - Launch Last app
+            5 - Launch Camera
+            6 - Launch Last app
+            7 - Single Hand Mode Right
+            8 - Single Hand Mode Left
          This needs to match the constants in
          policy/src/com/android/internal/policy/impl/PhoneWindowManager.java
     -->
@@ -146,9 +154,10 @@
             2 - Recent apps view in SystemUI
             3 - Launch assist intent
             4 - Voice Search
-            5 - In-app Search
-            6 - Launch Camera
-            7 - Launch Last app
+            5 - Launch Camera
+            6 - Launch Last app
+            7 - Single Hand Mode Right
+            8 - Single Hand Mode Left
          This needs to match the constants in
          policy/src/com/android/internal/policy/impl/PhoneWindowManager.java
     -->
@@ -160,9 +169,10 @@
             2 - Recent apps view in SystemUI
             3 - Launch assist intent
             4 - Voice Search
-            5 - In-app Search
-            6 - Launch Camera
-            7 - Launch Last app
+            5 - Launch Camera
+            6 - Launch Last app
+            7 - Single Hand Mode Right
+            8 - Single Hand Mode Left
          This needs to match the constants in
          policy/src/com/android/internal/policy/impl/PhoneWindowManager.java
     -->
@@ -174,9 +184,10 @@
             2 - Recent apps view in SystemUI
             3 - Launch assist intent
             4 - Voice Search
-            5 - In-app Search
-            6 - Launch Camera
-            7 - Launch Last app
+            5 - Launch Camera
+            6 - Launch Last app
+            7 - Single Hand Mode Right
+            8 - Single Hand Mode Left
          This needs to match the constants in
          policy/src/com/android/internal/policy/impl/PhoneWindowManager.java
     -->
@@ -188,9 +199,10 @@
             2 - Recent apps view in SystemUI
             3 - Launch assist intent
             4 - Voice Search
-            5 - In-app Search
-            6 - Launch Camera
-            7 - Launch Last app
+            5 - Launch Camera
+            6 - Launch Last app
+            7 - Single Hand Mode Right
+            8 - Single Hand Mode Left
          This needs to match the constants in
          policy/src/com/android/internal/policy/impl/PhoneWindowManager.java
     -->
