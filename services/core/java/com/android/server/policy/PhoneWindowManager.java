@@ -165,6 +165,8 @@ import java.io.PrintWriter;
 import java.util.HashSet;
 import java.util.List;
 
+import dalvik.system.PathClassLoader;
+
 /**
  * WindowManagerPolicy implementation for the Android phone UI.  This
  * introduces a new method suffix, Lp, for an internal lock of the
