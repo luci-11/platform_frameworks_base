@@ -4202,7 +4202,34 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                             || doubleTapBehavior == KEY_ACTION_SPLIT_SCREEN
                             || pressBehavior == KEY_ACTION_LAST_APP
                             || longPressBehavior == KEY_ACTION_LAST_APP
-                            || doubleTapBehavior == KEY_ACTION_LAST_APP) {
+                            || doubleTapBehavior == KEY_ACTION_LAST_APP
+                            || pressBehavior == KEY_ACTION_HOME
+                            || longPressBehavior == KEY_ACTION_HOME
+                            || doubleTapBehavior == KEY_ACTION_HOME
+                            || pressBehavior == KEY_ACTION_MENU
+                            || longPressBehavior == KEY_ACTION_MENU
+                            || doubleTapBehavior == KEY_ACTION_MENU
+                            || pressBehavior == KEY_ACTION_BACK
+                            || longPressBehavior == KEY_ACTION_BACK
+                            || doubleTapBehavior == KEY_ACTION_BACK
+                            || pressBehavior == KEY_ACTION_SCREEN_OFF
+                            || longPressBehavior == KEY_ACTION_SCREEN_OFF
+                            || doubleTapBehavior == KEY_ACTION_SCREEN_OFF
+                            || pressBehavior == KEY_ACTION_SEARCH
+                            || longPressBehavior == KEY_ACTION_SEARCH
+                            || doubleTapBehavior == KEY_ACTION_SEARCH
+                            || pressBehavior == KEY_ACTION_VOICE_SEARCH
+                            || longPressBehavior == KEY_ACTION_VOICE_SEARCH
+                            || doubleTapBehavior == KEY_ACTION_VOICE_SEARCH
+                            || pressBehavior == KEY_ACTION_CAMERA
+                            || longPressBehavior == KEY_ACTION_CAMERA
+                            || doubleTapBehavior == KEY_ACTION_CAMERA
+                            || pressBehavior == KEY_ACTION_SINGLE_HAND_RIGHT
+                            || longPressBehavior == KEY_ACTION_SINGLE_HAND_RIGHT
+                            || doubleTapBehavior == KEY_ACTION_SINGLE_HAND_RIGHT
+                            || pressBehavior == KEY_ACTION_SINGLE_HAND_LEFT
+                            || longPressBehavior == KEY_ACTION_SINGLE_HAND_LEFT
+                            || doubleTapBehavior == KEY_ACTION_SINGLE_HAND_LEFT) {
                     preloadRecentApps();
                 } else if (keyCode != KeyEvent.KEYCODE_HOME) {
                     handlePressOnKeyCode(keyCode);
