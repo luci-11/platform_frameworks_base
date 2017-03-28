@@ -771,6 +771,9 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     // What we do when the user double-taps on back
     private int mDoubleTapOnHardwareBackBehavior;
 
+    // What we do when the user presses on camera
+    private int mPressOnHardwareAssistBehavior;
+
     // What we do when the user long presses on assist
     private int mLongPressOnHardwareAssistBehavior;
 
@@ -785,6 +788,9 @@ public class PhoneWindowManager implements WindowManagerPolicy {
 
     // What we do when the user double-taps on app switch
     private int mDoubleTapOnHardwareAppSwitchBehavior;
+
+    // What we do when the user presses on camera
+    private int mPressOnHardwareCameraBehavior;
 
     // What we do when the user long presses on camera
     private int mLongPressOnHardwareCameraBehavior;
@@ -1044,6 +1050,9 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                     Settings.System.KEY_BACK_DOUBLE_TAP_ACTION), false, this,
                     UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.KEY_ASSIST_ACTION), false, this,
+                    UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.KEY_ASSIST_LONG_PRESS_ACTION), false, this,
                     UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
@@ -1057,6 +1066,9 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                     UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.KEY_APP_SWITCH_DOUBLE_TAP_ACTION), false, this,
+                    UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.KEY_CAMERA_ACTION), false, this,
                     UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.KEY_CAMERA_LONG_PRESS_ACTION), false, this,
@@ -2233,7 +2245,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                 com.android.internal.R.integer.config_pressOnHardwareMenuBehavior);
         if (mPressOnHardwareMenuBehavior < KEY_ACTION_NOTHING ||
                 mPressOnHardwareMenuBehavior > KEY_ACTION_SPLIT_SCREEN) {
-            mPressOnHardwareMenuBehavior = KEY_ACTION_NOTHING;
+            mPressOnHardwareMenuBehavior = KEY_ACTION_DEFAULT;
         }
 
         mLongPressOnHardwareMenuBehavior = mContext.getResources().getInteger(
@@ -2254,7 +2266,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                 com.android.internal.R.integer.config_pressOnHardwareBackBehavior);
         if (mPressOnHardwareBackBehavior < KEY_ACTION_NOTHING ||
                 mPressOnHardwareBackBehavior > KEY_ACTION_SPLIT_SCREEN) {
-            mPressOnHardwareBackBehavior = KEY_ACTION_NOTHING;
+            mPressOnHardwareBackBehavior = KEY_ACTION_DEFAULT;
         }
 
         mLongPressOnHardwareBackBehavior = mContext.getResources().getInteger(
@@ -2269,6 +2281,13 @@ public class PhoneWindowManager implements WindowManagerPolicy {
         if (mDoubleTapOnHardwareBackBehavior < KEY_ACTION_NOTHING ||
                 mDoubleTapOnHardwareBackBehavior > KEY_ACTION_SPLIT_SCREEN) {
             mDoubleTapOnHardwareBackBehavior = KEY_ACTION_NOTHING;
+        }
+
+        mPressOnHardwareAssistBehavior = mContext.getResources().getInteger(
+                com.android.internal.R.integer.config_pressOnHardwareAssistBehavior);
+        if (mPressOnHardwareAssistBehavior < KEY_ACTION_NOTHING ||
+                mPressOnHardwareAssistBehavior > KEY_ACTION_SPLIT_SCREEN) {
+            mPressOnHardwareAssistBehavior = KEY_ACTION_DEFAULT;
         }
 
         mLongPressOnHardwareAssistBehavior = mContext.getResources().getInteger(
@@ -2289,7 +2308,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                 com.android.internal.R.integer.config_pressOnHardwareAppSwitchBehavior);
         if (mPressOnHardwareAppSwitchBehavior < KEY_ACTION_NOTHING ||
                 mPressOnHardwareAppSwitchBehavior > KEY_ACTION_SPLIT_SCREEN) {
-            mPressOnHardwareAppSwitchBehavior = KEY_ACTION_NOTHING;
+            mPressOnHardwareAppSwitchBehavior = KEY_ACTION_DEFAULT;
         }
 
         mLongPressOnHardwareAppSwitchBehavior = mContext.getResources().getInteger(
@@ -2304,6 +2323,13 @@ public class PhoneWindowManager implements WindowManagerPolicy {
         if (mDoubleTapOnHardwareAppSwitchBehavior < KEY_ACTION_NOTHING ||
                 mDoubleTapOnHardwareAppSwitchBehavior > KEY_ACTION_SPLIT_SCREEN) {
             mDoubleTapOnHardwareAppSwitchBehavior = KEY_ACTION_NOTHING;
+        }
+
+        mPressOnHardwareCameraBehavior = mContext.getResources().getInteger(
+                com.android.internal.R.integer.config_pressOnHardwareCameraBehavior);
+        if (mPressOnHardwareCameraBehavior < KEY_ACTION_NOTHING ||
+                mPressOnHardwareCameraBehavior > KEY_ACTION_SPLIT_SCREEN) {
+            mPressOnHardwareCameraBehavior = KEY_ACTION_DEFAULT;
         }
 
         mLongPressOnHardwareCameraBehavior = mContext.getResources().getInteger(
@@ -2354,6 +2380,9 @@ public class PhoneWindowManager implements WindowManagerPolicy {
         }
 
         if (hasAssist) {
+            mPressOnHardwareAssistBehavior = Settings.System.getIntForUser(resolver,
+                    Settings.System.KEY_ASSIST_ACTION,
+                    mPressOnHardwareAssistBehavior, UserHandle.USER_CURRENT);
             mLongPressOnHardwareAssistBehavior = Settings.System.getIntForUser(resolver,
                     Settings.System.KEY_ASSIST_LONG_PRESS_ACTION,
                     mLongPressOnHardwareAssistBehavior, UserHandle.USER_CURRENT);
@@ -2375,6 +2404,9 @@ public class PhoneWindowManager implements WindowManagerPolicy {
         }
 
         if (hasCamera) {
+            mPressOnHardwareCameraBehavior = Settings.System.getIntForUser(resolver,
+                    Settings.System.KEY_CAMERA_ACTION,
+                    mPressOnHardwareCameraBehavior, UserHandle.USER_CURRENT);
             mLongPressOnHardwareCameraBehavior = Settings.System.getIntForUser(resolver,
                     Settings.System.KEY_CAMERA_LONG_PRESS_ACTION,
                     mLongPressOnHardwareCameraBehavior, UserHandle.USER_CURRENT);
@@ -3780,13 +3812,13 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                 behavior = mPressOnHardwareMenuBehavior;
                 break;
             case KeyEvent.KEYCODE_ASSIST:
-                behavior = KEY_ACTION_DEFAULT;
+                behavior = mPressOnHardwareAssistBehavior;
                 break;
             case KeyEvent.KEYCODE_APP_SWITCH:
                 behavior = mPressOnHardwareAppSwitchBehavior;
                 break;
             case KeyEvent.KEYCODE_CAMERA:
-                behavior = KEY_ACTION_DEFAULT;
+                behavior = mPressOnHardwareCameraBehavior;
                 break;
         }
         return behavior;
