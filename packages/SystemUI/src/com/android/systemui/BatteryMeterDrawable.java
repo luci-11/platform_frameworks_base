@@ -159,7 +159,6 @@ public class BatteryMeterDrawable extends Drawable implements
         }
         levels.recycle();
         colors.recycle();
-        mBatteryPct = context.getResources().getBoolean(R.bool.config_showBatteryPercentage);
         updateShowPercent();
         updateForceChargeBatteryText();
         updateCustomChargingSymbol();
@@ -266,7 +265,6 @@ public class BatteryMeterDrawable extends Drawable implements
     public void onBatteryLevelChanged(int level, boolean pluggedIn, boolean charging) {
         mLevel = level;
         mPluggedIn = pluggedIn;
-        mCharging = charging;
 
         if (mStyle == BATTERY_STYLE_CIRCLE || mStyle == BATTERY_STYLE_FULL_CIRCLE || mStyle == BATTERY_STYLE_BIGCIRCLE) {
             animateCircleBattery(level, pluggedIn, charging);
@@ -461,7 +459,6 @@ public class BatteryMeterDrawable extends Drawable implements
             updateChargeColor();
             updateForceChargeBatteryText();
             updateCustomChargingSymbol();
-            updateBatterySaverWarningColor();
             postInvalidate();
         }
     }

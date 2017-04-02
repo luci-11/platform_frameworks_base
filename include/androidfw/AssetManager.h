@@ -347,6 +347,8 @@ private:
 
         bool isUpToDate();
 
+        void closeZipFromPath(const String8& zip);
+
     private:
         void closeZip(int idx);
 

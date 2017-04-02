@@ -3922,53 +3922,16 @@ public final class Settings {
         public static final String FINGERPRINT_SUCCESS_VIB = "fingerprint_success_vib";
 
         /**
-         * Action to perform when the home key is long-pressed.
-         * (Default can be configured via config_longPressOnHardwareHomeBehavior)
-         * 0 - Nothing
-         * 1 - Menu
-         * 2 - App-switch
-         * 3 - Search
-         * 4 - Voice search
-         * 5 - In-app search
-         * 6 - Launch Camera
-         * 7 - Laucnh last app
-         * @hide
-         */
-        public static final String KEY_HOME_LONG_PRESS_ACTION = "key_home_long_press_action";
-
-        /**
          * Three Finger Gesture from Oppo
          * @hide
          */
         public static final String THREE_FINGER_GESTURE = "three_finger_gesture";
 
         /**
-         * Action to perform when the app switch key is long-pressed.
-         * (Default can be configured via config_longPressOnHardwareCameraBehavior)
-         * (See KEY_HOME_LONG_PRESS_ACTION for valid values)
+         * Whether to wake the screen with the home key, the value is boolean.
          * @hide
          */
-        public static final String KEY_CAMERA_LONG_PRESS_ACTION = "key_camera_long_press_action";
-
-        /**
-         * Action to perform when the camera key is double-tapped.
-         * (Default can be configured via config_doubleTapOnHardwareCameraBehavior)
-         * (See KEY_HOME_LONG_PRESS_ACTION for valid values)
-         * @hide
-         */
-        public static final String KEY_CAMERA_DOUBLE_TAP_ACTION = "key_camera_double_tap_action";
-
-        /** @hide */
-        public static final Validator KEY_VALIDATOR = new Validator() {
-            @Override
-            public boolean validate(String value) {
-                try {
-                    return Long.parseLong(value) >= 0;
-                } catch (NumberFormatException e) {
-                    return false;
-                }
-            }
-        };
+        public static final String HOME_WAKE_SCREEN = "home_wake_screen";
 
         /**
          * Unlock keystore with fingerprint after reboot

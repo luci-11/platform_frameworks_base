@@ -599,7 +599,7 @@ public final class PowerManagerService extends SystemService
             mScreenBrightnessSettingMinimum = pm.getMinimumScreenBrightnessSetting();
             mScreenBrightnessSettingMaximum = pm.getMaximumScreenBrightnessSetting();
             mScreenBrightnessSettingDefault = pm.getDefaultScreenBrightnessSetting();
-            mButtonBrightnessSettingDefault = pm.getDefaultButtonBrightness();
+            mButtonBrightnessSettingDefault = pm.getDefaultButtonBrightnessSetting();
 
             SensorManager sensorManager = new SystemSensorManager(mContext, mHandler.getLooper());
 
@@ -3870,6 +3870,16 @@ public final class PowerManagerService extends SystemService
             synchronized(mLock) {
                 qcNsrmPowExt.processPmsBlockedUid(uid, isBlocked,
                                                              mWakeLocks);
+            }
+        }
+    }
+
+    private void setButtonBrightnessOverrideFromWindowManagerInternal(int brightness) {
+        synchronized (mLock) {
+            if (mButtonBrightnessOverrideFromWindowManager != brightness) {
+                mButtonBrightnessOverrideFromWindowManager = brightness;
+                mDirty |= DIRTY_SETTINGS;
+                updatePowerStateLocked();
             }
         }
     }

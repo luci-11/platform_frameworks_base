@@ -546,6 +546,13 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     boolean mVolBtnMusicControls;
     boolean mIsLongPress;
 
+    // During wakeup by volume keys, we still need to capture subsequent events
+    // until the key is released. This is required since the beep sound is produced
+    // post keypressed.
+    boolean mVolumeWakeTriggered;
+
+    int mDeviceHardwareKeys;
+
     int mPointerLocationMode = 0; // guarded by mLock
 
     // The last window we were told about in focusChanged.
@@ -4806,8 +4813,16 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     }
 
     private void launchAssistLongPressAction() {
-        performHapticFeedbackLw(null, HapticFeedbackConstants.LONG_PRESS, false);
-        sendCloseSystemWindows(SYSTEM_DIALOG_REASON_ASSIST);
+        launchAssistLongPressAction(true, true);
+    }
+
+    private void launchAssistLongPressAction(boolean performHapticFeedbacklw, boolean closeSystemWindows) {
+        if (performHapticFeedbacklw) {
+            performHapticFeedbackLw(null, HapticFeedbackConstants.LONG_PRESS, false);
+        }
+        if (closeSystemWindows) {
+            sendCloseSystemWindows(SYSTEM_DIALOG_REASON_ASSIST);
+        }
 
         // launch the search activity
         Intent intent = new Intent(Intent.ACTION_SEARCH_LONG_PRESS);
@@ -4822,6 +4837,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             startActivityAsUser(intent, UserHandle.CURRENT);
         } catch (ActivityNotFoundException e) {
             Slog.w(TAG, "No activity to handle assist long press action.", e);
+            // TODO> show informative toast.
         }
     }
 
@@ -6887,6 +6903,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
 
         final boolean keyguardOn = keyguardOn();
 
+        final boolean interactive = (policyFlags & FLAG_INTERACTIVE) != 0;
         final boolean isInjected = (policyFlags & WindowManagerPolicy.FLAG_INJECTED) != 0;
 
         // If screen is off then we treat the case where the keyguard is open but hidden
@@ -6897,6 +6914,9 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                                             (interactive ?
                                                 isKeyguardShowingAndNotOccluded() :
                                                 mKeyguardDelegate.isShowing()));
+
+        // Request haptic feedback for hw keys finger down events.
+        boolean hapticFeedbackRequested = false;
 
         if (DEBUG_INPUT) {
             Log.d(TAG, "interceptKeyBeforeQueueing(): event =" + event.toString()

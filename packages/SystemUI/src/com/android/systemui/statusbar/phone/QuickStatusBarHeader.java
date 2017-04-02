@@ -294,7 +294,6 @@ public class QuickStatusBarHeader extends BaseStatusBarHeader implements
                 ? View.VISIBLE : View.INVISIBLE);
         mMultiUserSwitch.setVisibility(mExpanded && mMultiUserSwitch.hasMultipleUsers()
                 ? View.VISIBLE : View.INVISIBLE);
-        mEdit.setVisibility(isDemo || !mExpanded ? View.INVISIBLE : View.VISIBLE);
     }
 
     private void updateDateTimePosition() {
