@@ -17,9 +17,15 @@
 package com.android.systemui.qs.tiles;
 
 import android.content.ComponentName;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.database.ContentObserver;
+import android.net.Uri;
+import android.os.Handler;
+import android.os.UserHandle;
+import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -86,21 +92,35 @@ public class CellularTile extends QSTile<QSTile.SignalState> {
 
     @Override
     protected void handleClick() {
+        boolean mAdvancedQS = isAdvancedQsEnabled();
         MetricsLogger.action(mContext, getMetricsCategory());
-        if (mDataController.isMobileDataSupported()) {
-            mDataController.setMobileDataEnabled(!mDataController.isMobileDataEnabled());
+        if (mAdvancedQS) {
+            if (mDataController.isMobileDataSupported()) {
+                mDataController.setMobileDataEnabled(!mDataController.isMobileDataEnabled());
+            } else {
+                mHost.startActivityDismissingKeyguard(CELLULAR_SETTINGS);
+            }
         } else {
-            mHost.startActivityDismissingKeyguard(CELLULAR_SETTINGS);
+            if (mDataController.isMobileDataSupported()) {
+                showDetail(true);
+            } else {
+                mHost.startActivityDismissingKeyguard(CELLULAR_SETTINGS);
+            }
         }
     }
 
     @Override
     protected void handleLongClick() {
-        MetricsLogger.action(mContext, getMetricsCategory());
-        if (mDataController.isMobileDataSupported()) {
-            showDetail(true);
+        boolean mAdvancedQS = isAdvancedQsEnabled();
+        if (mAdvancedQS) {
+            MetricsLogger.action(mContext, getMetricsCategory());
+            if (mDataController.isMobileDataSupported()) {
+                showDetail(true);
+            } else {
+                mHost.startActivityDismissingKeyguard(CELLULAR_SETTINGS);
+            }
         } else {
-            mHost.startActivityDismissingKeyguard(CELLULAR_SETTINGS);
+            return CELLULAR_SETTINGS;
         }
     }
 
@@ -162,6 +182,11 @@ public class CellularTile extends QSTile<QSTile.SignalState> {
                 = Button.class.getName();
         state.value = mDataController.isMobileDataSupported()
                 && mDataController.isMobileDataEnabled();
+    }
+
+    public boolean isAdvancedQsEnabled() {
+        return Settings.Secure.getInt(mContext.getContentResolver(),
+            Settings.Secure.QS_ADVANCED, 0) == 1;
     }
 
     @Override

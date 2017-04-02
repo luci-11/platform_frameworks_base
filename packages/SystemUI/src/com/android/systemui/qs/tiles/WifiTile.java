@@ -16,10 +16,15 @@
 
 package com.android.systemui.qs.tiles;
 
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
+import android.database.ContentObserver;
+import android.net.Uri;
+import android.os.Handler;
+import android.os.UserHandle;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
@@ -109,17 +114,35 @@ public class WifiTile extends QSTile<QSTile.SignalState> {
 
     @Override
     protected void handleClick() {
-        mState.copyTo(mStateBeforeClick);
-        MetricsLogger.action(mContext, getMetricsCategory(), !mState.value);
-        mController.setWifiEnabled(!mState.value);
+        boolean mAdvancedQS = isAdvancedQsEnabled();
+        if (mAdvancedQS) {
+            mState.copyTo(mStateBeforeClick);
+            MetricsLogger.action(mContext, getMetricsCategory(), !mState.value);
+            mController.setWifiEnabled(!mState.value);
+        } else {
+            if (!mWifiController.canConfigWifi()) {
+                mHost.startActivityDismissingKeyguard(new Intent(Settings.ACTION_WIFI_SETTINGS));
+                return;
+            }
+            showDetail(true);
+            if (!mState.value) {
+                mController.setWifiEnabled(true);
+                mState.value = true;
+            }
+        }
     }
 
     @Override
     protected void handleLongClick() {
-        if (!mWifiController.canConfigWifi()) {
-            mHost.startActivityDismissingKeyguard(new Intent(Settings.ACTION_WIFI_SETTINGS));
+        boolean mAdvancedQS = isAdvancedQsEnabled();
+        if (mAdvancedQS) {
+            if (!mWifiController.canConfigWifi()) {
+                mHost.startActivityDismissingKeyguard(new Intent(Settings.ACTION_WIFI_SETTINGS));
+            } else {
+                showDetail(true);
+            }
         } else {
-            showDetail(true);
+            return WIFI_SETTINGS;
         }
     }
 
@@ -190,6 +213,11 @@ public class WifiTile extends QSTile<QSTile.SignalState> {
         state.dualLabelContentDescription = wifiName;
         state.expandedAccessibilityClassName = Button.class.getName();
         state.minimalAccessibilityClassName = Switch.class.getName();
+    }
+
+    public boolean isAdvancedQsEnabled() {
+        return Settings.Secure.getInt(mContext.getContentResolver(),
+            Settings.Secure.QS_ADVANCED, 0) == 1;
     }
 
     @Override
