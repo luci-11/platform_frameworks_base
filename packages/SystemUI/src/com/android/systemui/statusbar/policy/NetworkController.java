@@ -45,10 +45,15 @@ public interface NetworkController {
                 boolean activityIn, boolean activityOut, String description) {}
 
         default void setMobileDataIndicators(IconState statusIcon, IconState qsIcon, int statusType,
+<<<<<<< HEAD
                 int qsType, boolean activityIn, boolean activityOut, int dataActivityId,
                 int mobileActivityId, int stackedDataIcon, int stackedVoiceIcon,
                 String typeContentDescription, String description,
                 boolean isWide, int subId) {}
+=======
+                int qsType, boolean activityIn, boolean activityOut, String typeContentDescription,
+                String description, boolean isWide, int subId, boolean roaming) {}
+>>>>>>> cb62de5adc0581c1c2889a76a698451a9eaaf233
         default void setSubs(List<SubscriptionInfo> subs) {}
         default void setNoSims(boolean show) {}
 

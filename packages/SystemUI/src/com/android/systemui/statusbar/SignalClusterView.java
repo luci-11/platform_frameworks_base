@@ -291,7 +291,7 @@ public class SignalClusterView
     public void setMobileDataIndicators(IconState statusIcon, IconState qsIcon, int statusType,
             int qsType, boolean activityIn, boolean activityOut, int dataActivityId,
             int mobileActivityId, int stackedDataId, int stackedVoiceId,
-            String typeContentDescription, String description, boolean isWide, int subId) {
+            String typeContentDescription, String description, boolean isWide, int subId, boolean roaming) {
         PhoneState state = getState(subId);
         if (state == null) {
             return;
@@ -306,6 +306,7 @@ public class SignalClusterView
         state.mMobileActivityId = mobileActivityId;
         state.mStackedDataId = stackedDataId;
         state.mStackedVoiceId = stackedVoiceId;
+        state.mRoaming = roaming;
 
         apply();
     }
@@ -704,7 +705,7 @@ public class SignalClusterView
 
         private ViewGroup mMobileGroup;
         private ImageView mMobile, mMobileDark, mMobileType, mRoaming, mDataNetworkTypeInRoaming,
-                mMobileEmbms, mMobileIms;
+                mMobileEmbms, mMobileIms, mMobileRoaming;
 
         private int mDataActivityId = 0, mMobileActivityId = 0, mDataNetworkTypeInRoamingId =0,
                 mMobileEmbmsId = 0, mMobileImsId = 0;
@@ -712,6 +713,7 @@ public class SignalClusterView
         private int mStackedDataId = 0, mStackedVoiceId = 0;
         private ImageView mDataActivity, mMobileActivity, mStackedData, mStackedVoice;
         private ViewGroup mMobileSingleGroup, mMobileStackedGroup;
+        public boolean mRoaming;
 
         public PhoneState(int subId, Context context) {
             ViewGroup root = (ViewGroup) LayoutInflater.from(context)
@@ -738,6 +740,7 @@ public class SignalClusterView
             mMobileSingleGroup = (ViewGroup) root.findViewById(R.id.mobile_signal_single);
             mMobileStackedGroup = (ViewGroup) root.findViewById(R.id.mobile_signal_stacked);
             mRoaming        = (ImageView) root.findViewById(R.id.mobile_roaming);
+            mMobileRoaming  = (ImageView) root.findViewById(R.id.mobile_roaming);
         }
 
         public boolean apply(boolean isSecondaryIcon) {
@@ -830,6 +833,7 @@ public class SignalClusterView
                     : View.GONE);
             mMobileEmbms.setVisibility(mMobileEmbmsId != 0 ? View.VISIBLE : View.GONE);
             mMobileIms.setVisibility(mMobileImsId != 0 ? View.VISIBLE : View.GONE);
+            mMobileRoaming.setVisibility(mRoaming ? View.VISIBLE : View.GONE);
 
             return mMobileVisible;
         }
@@ -889,6 +893,8 @@ public class SignalClusterView
                     StatusBarIconController.getDarkIntensity(tintArea, mMobile, darkIntensity),
                     mMobile, mMobileDark);
             setTint(mMobileType, StatusBarIconController.getTint(tintArea, mMobileType, tint));
+            setTint(mMobileRoaming, StatusBarIconController.getTint(tintArea, mMobileRoaming,
+                    tint));
         }
     }
 }
